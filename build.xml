@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SolutionName>PMS</SolutionName>
+    <SolutionFile>$(SolutionName).sln</SolutionFile>
+    <ProjectName>PMS.PMS</ProjectName>
+    <ProjectFile>$(ProjectName)\$(ProjectName).csproj</ProjectFile>
+
+  </PropertyGroup>
+
+  <Target Name="Build" DependsOnTargets="BuildPackage;CopyOutput" />
+
+  <Target Name="BuildPackage">
+    <MSBuild Projects="$(SolutionFile)" ContinueOnError="false" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
+    <MSBuild Projects="$(ProjectFile)" ContinueOnError="false" Targets="Package" Properties="Configuration=$(Configuration)" />
+  </Target>
+
+  <!--<Target Name="CopyOutput">
+
+    <ItemGroup>
+      <PackagedFiles Include="$(ProjectName)\obj\$(Configuration)\Package\PackageTmp\**\*.*"/>
+    </ItemGroup>
+    <Message Text="Copying" />
+    <Message Text ="@(PackagedFiles)" />
+    <Copy SourceFiles="@(PackagedFiles)" DestinationFiles="@(PackagedFiles->'\\$(remoteIP)\c$\inetpub\wwwroot\$(siteName)\%(RecursiveDir)%(Filename)%(Extension)')"/>
+  </Target>-->
+</Project>
